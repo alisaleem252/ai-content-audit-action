@@ -33,7 +33,8 @@ async function main() {
   };
   if (!o.checks.length) throw new Error('`checks` must include fact-check and/or originality.');
 
-  const event = JSON.parse(await readFile(process.env.GITHUB_EVENT_PATH || '/dev/null', 'utf8').catch(() => '{}'));
+  let event = {};
+  try { event = JSON.parse(await readFile(process.env.GITHUB_EVENT_PATH || '', 'utf8')); } catch { /* no event payload (manual run) */ }
   const number = event.pull_request?.number;
   if (!number) { notice('Not a pull request event; nothing to audit.'); await setOutput('status', 'skipped'); return; }
 
