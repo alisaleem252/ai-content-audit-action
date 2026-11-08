@@ -1,0 +1,13 @@
+{
+  "name": "ai-content-audit-action",
+  "version": "1.0.0",
+  "description": "GitHub Action that fact-checks and originality-checks Markdown posts changed in a pull request using the RapidTextAI API.",
+  "type": "module",
+  "scripts": { "test": "node --test test/*.test.js" },
+  "engines": { "node": ">=20" },
+  "keywords": ["github-action", "github-actions", "content-quality", "fact-checking", "plagiarism-checker", "markdown", "seo", "ci", "pull-request", "rapidtextai", "nodejs"],
+  "repository": { "type": "git", "url": "git+https://github.com/alisaleem252/ai-content-audit-action.git" },
+  "homepage": "https://github.com/alisaleem252/ai-content-audit-action#readme",
+  "bugs": { "url": "https://github.com/alisaleem252/ai-content-audit-action/issues" },
+  "dependencies": {}
+}

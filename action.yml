@@ -1,0 +1,59 @@
+name: 'AI Content Audit'
+description: 'Fact-check and originality-check the Markdown posts changed in a pull request, using the RapidTextAI API. Posts a report and can block the merge.'
+author: 'alisaleem252'
+branding:
+  icon: 'check-circle'
+  color: 'purple'
+
+inputs:
+  api-key:
+    description: 'RapidTextAI API key. Store it as a repository secret.'
+    required: true
+  paths:
+    description: 'Comma- or newline-separated globs of files to audit.'
+    default: '**/*.md,**/*.mdx'
+  exclude:
+    description: 'Globs to skip.'
+    default: 'node_modules/**,README.md,CHANGELOG.md,**/README.md'
+  checks:
+    description: 'Which checks to run: fact-check, originality (comma-separated).'
+    default: 'fact-check,originality'
+  min-fact-score:
+    description: 'Minimum fact-check score (0-100).'
+    default: '70'
+  min-originality-score:
+    description: 'Minimum originality score (0-100).'
+    default: '80'
+  allow-contradicted:
+    description: 'Do not fail when a claim is contradicted by sources.'
+    default: 'false'
+  max-files:
+    description: 'Maximum files to audit per run. Each file spends request units, so this caps the cost.'
+    default: '3'
+  min-words:
+    description: 'Skip files shorter than this many words.'
+    default: '150'
+  fail-on-threshold:
+    description: 'Fail the job when a file is below a threshold.'
+    default: 'true'
+  comment:
+    description: 'Post (and keep updating) a report comment on the pull request. Needs pull-requests: write.'
+    default: 'true'
+  github-token:
+    description: 'Token used to list changed files and post the comment.'
+    default: ${{ github.token }}
+  base-url:
+    description: 'Override the RapidTextAI API base URL.'
+    default: 'https://app.rapidtextai.com/openai'
+
+outputs:
+  status:
+    description: 'passed, failed or skipped'
+  files-audited:
+    description: 'Number of files audited'
+  units-used:
+    description: 'Request units spent'
+
+runs:
+  using: 'node20'
+  main: 'src/index.js'
